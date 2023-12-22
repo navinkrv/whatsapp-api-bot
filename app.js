@@ -41,13 +41,16 @@ app.get("/send/:num/:text", (req, res) => {
 	const chatId = number + "@c.us";
 
 	// Sending message.
-
-	if (chatId && text) {
-		client.sendMessage(chatId, text);
-		res.json({
-			msg: "sent",
-			data: chatId + " " + text
-		});
+	if (client.info === undefined) {
+		res.send("the system is not ready yet");
+	} else {
+		if (chatId && text) {
+			client.sendMessage(chatId, text);
+			res.json({
+				msg: "sent",
+				data: chatId + " " + text
+			});
+		}
 	}
 });
 
