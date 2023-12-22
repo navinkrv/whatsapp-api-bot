@@ -21,7 +21,11 @@ client.initialize();
 // API
 
 app.get("/login", (req, res) => {
-	res.send(qrCode);
+	if (qrCode) {
+		res.send(qrCode);
+	} else {
+		res.send("please wait");
+	}
 	// console.log(qrCode);
 });
 
@@ -37,14 +41,12 @@ app.get("/send/:num/:text", (req, res) => {
 	const chatId = number + "@c.us";
 
 	// Sending message.
-	if (client.sendMessage(chatId, text)) {
+
+	if (chatId && text) {
+		client.sendMessage(chatId, text);
 		res.json({
 			msg: "sent",
 			data: chatId + " " + text
-		});
-	} else {
-		res.json({
-			msg: " not sent"
 		});
 	}
 });
